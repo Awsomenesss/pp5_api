@@ -8,11 +8,30 @@ class Profile(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     name = models.CharField(max_length=255, blank=True)
-    content = models.TextField(blank=True)
-    image = models.ImageField(
-        upload_to='images/', default='../default_profile_o5f3a0'
+    belt_choices = [
+        ("white", "White"),
+        ("blue", "Blue"),
+        ("purple", "Purple"),
+        ("brown", "Brown"),
+        ("black", "Black"),
+    ]
+    belt_color = models.CharField(
+        max_length=32, choices=belt_choices, blank=False, default='white'
     )
-    belt_level = models.CharField(max_length=50, blank=True)
+
+    gi_or_no_gi_choices = [
+        ("gi", "Gi"),
+        ("no_gi", "No Gi"),
+    ]
+    gi_or_no_gi = models.CharField(
+        max_length=32, choices=gi_or_no_gi_choices, blank=False, null=True
+    )
+    years_trained = models.PositiveIntegerField(default=0)
+    profile_image = models.ImageField(
+        upload_to='images/', default='../default_profile_o5f3a0', blank=True
+    )
+    introduction = models.TextField(
+        null=True, blank=True, verbose_name="Personal Introduction")
 
     class Meta:
         ordering = ['-created_at']

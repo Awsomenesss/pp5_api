@@ -14,6 +14,6 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = [
-            'id', 'owner', 'created_at', 'updated_at', 'name',
-            'content', 'image', 'belt_level', 'is_owner'
+            'id', 'owner', 'is_owner', 'created_at', 'updated_at', 'name',
+            'introduction', 'belt_color', 'gi_or_no_gi', 'years_trained', 'profile_image'
         ]
