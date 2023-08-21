@@ -15,9 +15,9 @@ class EventList(APIView):
 
     def get(self, request):
         """Retrieve a list of all events."""
-        event = Event.objects.all()
+        events = Event.objects.all()  # Use a different variable name here
         serializer = EventSerializer(
-            event, many=True, context={'request': request}
+            events, many=True, context={'request': request}
         )
         return Response(serializer.data)
 
