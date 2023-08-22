@@ -15,7 +15,7 @@ class Event(models.Model):
     time = models.TimeField()
     location = models.CharField(max_length=200)
     image = models.ImageField(
-        upload_to='images/', default='../default_post_rgq6aq', blank=True
+        upload_to='images/', default='../default_post_wixyoc', blank=True
     )
 
     class Meta:
