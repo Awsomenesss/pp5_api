@@ -62,9 +62,10 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = 'DEV' in os.environ
 
-ALLOWED_HOSTS = [os.environ.get(
-    'ALLOWED_HOST'), '8000-awsomenesss-pp5-api-xilsbox1b5.us2.codeanyapp.com',]
-    'ALLOWED_HOST'), '8000-awsomenesss-pp5-api-xilsbox1b5.us2.codeanyapp.com',]
+ALLOWED_HOSTS = [
+    os.environ.get('ALLOWED_HOST'),
+    '8000-awsomenesss-pp5-api-xilsbox1b5.us2.codeanyapp.com',
+]
 
 
 # Application definition
