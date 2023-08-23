@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
+import re
 from pathlib import Path
 import os
 import dj_database_url
@@ -62,8 +62,9 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = 'DEV' in os.environ
 
-ALLOWED_HOSTS = ['8000-awsomenesss-pp5-api-xilsbox1b5.us2.codeanyapp.com',
-                 'https://pp5-bjj-api-2269f4220822.herokuapp.com/']
+ALLOWED_HOSTS = [os.environ.get(
+    'ALLOWED_HOST'), '8000-awsomenesss-pp5-api-xilsbox1b5.us2.codeanyapp.com',]
+    'ALLOWED_HOST'), '8000-awsomenesss-pp5-api-xilsbox1b5.us2.codeanyapp.com',]
 
 
 # Application definition
