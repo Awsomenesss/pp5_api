@@ -9,9 +9,10 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-import re
+
 from pathlib import Path
 import os
+import re
 import dj_database_url
 
 if os.path.exists('env.py'):
@@ -34,12 +35,13 @@ REST_FRAMEWORK = {
     )],
     'DEFAULT_PAGINATION_CLASS':
     'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 3,
-    'DATETIME_FORMAT': '%d %b %Y',
+    'PAGE_SIZE': 10,
+    'DATETIME_FORMAT': '%d %b %Y'
 }
 if 'DEV' not in os.environ:
+
     REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] = [
-        'rest_framework.renderers.JSONRenderer',
+        'restframework.renderers.JSONRenderer'
     ]
 
 
@@ -50,20 +52,19 @@ JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
 JWT_AUTH_SAMESITE = 'None'
 
 REST_AUTH_SERIALIZERS = {
-    'USER_DETAILS_SERIALIZER': 'bjj_api.serializers.CurrentUserSerializer'
-}
+    'USER_DETAILS_SERIALIZER': 'bjj_api.serializers.CurrentUserSerializer'}
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = 'DEV' in os.environ
 
 ALLOWED_HOSTS = [
-    os.environ.get('ALLOWED_HOST'),
+    'https://pp5-bjj-api-2269f4220822.herokuapp.com /',
     '8000-awsomenesss-pp5-api-xilsbox1b5.us2.codeanyapp.com',
 ]
 
@@ -98,6 +99,14 @@ INSTALLED_APPS = [
     'followers',
 ]
 SITE_ID = 1
+​​REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [(
+        'rest_framework.authentication.SessionAuthentication'
+        if 'DEV' in os.environ
+        else 'dj_rest_auth.jwt_auth.JWTCookieAuthentication'
+    )]
+}
+
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -145,15 +154,14 @@ WSGI_APPLICATION = 'bjj_api.wsgi.application'
 
 if 'DEV' in os.environ:
     DATABASES = {
-        'default': {
+        'default': ({
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': BASE_DIR / 'db.sqlite3',
-        }
+        } if 'DEV' in os.environ else dj_database_url.parse(
+            os.environ.get('DATABASE_URL')
+        ))
     }
-else:
-    DATABASES = {
-        'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
-    }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
