@@ -51,7 +51,8 @@ JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
 JWT_AUTH_SAMESITE = 'None'
 
 REST_AUTH_SERIALIZERS = {
-    'USER_DETAILS_SERIALIZER': 'bjj_api.serializers.CurrentUserSerializer'}
+    'USER_DETAILS_SERIALIZER': 'bjj_api.serializers.CurrentUserSerializer'
+}
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -63,7 +64,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = 'DEV' in os.environ
 
 ALLOWED_HOSTS = [os.environ.get(
-    'ALLOWED_HOST'), '8000-awsomenesss-pp5-api-xilsbox1b5.us2.codeanyapp.com',
+    'ALLOWED_HOST'), '8000-awsomenesss-pp5-api-apyopmn2uk.us2.codeanyapp.com',
 ]
 
 
@@ -151,6 +152,7 @@ if 'DEV' in os.environ:
         }
     }
 else:
+    print(os.environ.get("DATABASE_URL"))
     DATABASES = {
         'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
     }
