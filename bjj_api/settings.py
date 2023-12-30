@@ -64,7 +64,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = 'DEV' in os.environ
 
 ALLOWED_HOSTS = [os.environ.get(
-    'ALLOWED_HOST'), '8000-awsomenesss-pp5-api-apyopmn2uk.us2.codeanyapp.com',
+    'ALLOWED_HOST'), '8000-awsomenesss-pp5-api-e56hkzej8p.us2.codeanyapp.com',
 ]
 
 
