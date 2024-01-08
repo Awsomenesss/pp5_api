@@ -64,7 +64,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = True   #'DEV' in os.environ
 
 ALLOWED_HOSTS = [os.environ.get(
-    'ALLOWED_HOST'), '8000-awsomenesss-pp5-api-e56hkzej8p.us2.codeanyapp.com',
+    'ALLOWED_HOST'), '8000-awsomenesss-pp5api-cel0rz1q7hi.ws-eu107.gitpod.io',
 ]
 
 
@@ -110,13 +110,13 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-if 'CLIENT_ORIGIN_DEV' in os.environ:
-    extracted_url = re.match(
-        r'^([^.]+)', os.environ.get('CLIENT_ORIGIN_DEV', ''), re.IGNORECASE).group(0)
 
-    CORS_ALLOWED_ORIGIN_REGEXES = [
-        rf"{extracted_url}.(eu|us)\d+\.codeanyapp\.com$",
-    ]
+
+if 'CLIENT_ORIGIN' in os.environ:
+    CORS_ALLOWED_ORIGINS = [os.environ.get('CLIENT_ORIGIN')]
+else:
+   CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^https://.*\.gitpod\.io$",]
 
 CORS_ALLOW_CREDENTIALS = True
 
