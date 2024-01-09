@@ -12,6 +12,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     event_count = serializers.ReadOnlyField()
     followers_count = serializers.ReadOnlyField()
     following_count = serializers.ReadOnlyField()
+    profile_image = serializers.ReadOnlyField(source='owner.profile.profile_image.url')
 
     def get_is_owner(self, obj):
         request = self.context['request']
