@@ -28,7 +28,7 @@ class Profile(models.Model):
     )
     years_trained = models.PositiveIntegerField(default=0)
     profile_image = models.ImageField(
-        upload_to='images/', default='../default_profile_o5f3a0', blank=True
+        upload_to='images/', default='../default_profile_o5f3a0'
     )
     introduction = models.TextField(
         null=True, blank=True, verbose_name="Personal Introduction")
