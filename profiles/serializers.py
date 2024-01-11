@@ -7,12 +7,18 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     owner = serializers.ReadOnlyField(source="owner.username")
     is_owner = serializers.SerializerMethodField()
+    name = serializers.CharField(max_length=50, allow_blank=True, required=False)
+    introduction = serializers.CharField(allow_blank=True, required=False)
+    belt_color = serializers.ChoiceField(choices=Profile.belt_choices, required=False)
+    gi_or_no_gi = serializers.ChoiceField(choices=Profile.gi_or_no_gi_choices, required=False)
+    years_trained = serializers.IntegerField(min_value=0, required=False)
     following_id = serializers.SerializerMethodField()
     posts_count = serializers.ReadOnlyField()
     event_count = serializers.ReadOnlyField()
     followers_count = serializers.ReadOnlyField()
     following_count = serializers.ReadOnlyField()
     profile_image = serializers.ReadOnlyField(source='owner.profile.profile_image.url')
+    
 
     def get_is_owner(self, obj):
         request = self.context['request']
