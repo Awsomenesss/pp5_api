@@ -1,7 +1,8 @@
 from django.contrib.humanize.templatetags.humanize import naturaltime
 from rest_framework import serializers
 from posts.models import Post
-from likes.models import PostLike  
+from likes.models import PostLike 
+from dislikes.models import PostDislike  
 
 class PostSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
@@ -9,7 +10,9 @@ class PostSerializer(serializers.ModelSerializer):
     profile_id = serializers.ReadOnlyField(source='owner.profile.id')
     profile_image = serializers.ReadOnlyField(source='owner.profile.profile_image.url')
     like_id = serializers.SerializerMethodField()
+    dislike_id = serializers.SerializerMethodField()
     likes_count = serializers.ReadOnlyField()
+    dislikes_count = serializers.ReadOnlyField()
     comments_count = serializers.ReadOnlyField()
     created_at = serializers.SerializerMethodField()
     updated_at = serializers.SerializerMethodField()
@@ -45,11 +48,19 @@ class PostSerializer(serializers.ModelSerializer):
             ).first()
             return like.id if like else None
         return None
+    def get_dislike_id(self, obj):
+        user = self.context['request'].user
+        if user.is_authenticated:
+            dislike = PostDisike.objects.filter(
+                owner=user, post=obj
+            ).first()
+            return dislike.id if dislike else None
+        return None    
 
     class Meta:
         model = Post
         fields = [
             'id', 'owner', 'is_owner', 'profile_id',
             'profile_image', 'created_at', 'updated_at',
-            'title', 'content', 'image', 'image_filter', 'like_id', 'likes_count', 'comments_count',
+            'title', 'content', 'image', 'image_filter', 'like_id', 'dislike_id','likes_count','dislikes_count', 'comments_count',
         ]

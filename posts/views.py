@@ -14,6 +14,7 @@ class PostList(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     queryset = Post.objects.annotate(
         likes_count=Count('post_likes', distinct=True), 
+        dislikes_count=Count('post_dislikes', distinct=True), 
         comments_count=Count('comment', distinct=True)
     ).order_by('-created_at')
     filter_backends = [
@@ -24,6 +25,7 @@ class PostList(generics.ListCreateAPIView):
     filterset_fields = [
         'owner__followed__owner__profile',
         'post_likes__owner__profile', 
+        'post_dislikes__owner__profile',
         'owner__profile',
     ]
     search_fields = [
@@ -32,8 +34,10 @@ class PostList(generics.ListCreateAPIView):
     ]
     ordering_fields = [
         'likes_count',
+        'dislikes_count',
         'comments_count',
         'post_likes__created_at', 
+         'post_dislikes__created_at', 
     ]
 
     def perform_create(self, serializer):
@@ -46,6 +50,7 @@ class PostDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = PostSerializer
     permission_classes = [IsOwnerOrReadOnly]
     queryset = Post.objects.annotate(
-        likes_count=Count('post_likes', distinct=True),  
+        likes_count=Count('post_likes', distinct=True),
+        dislikes_count=Count('post_dislikes', distinct=True),  
         comments_count=Count('comment', distinct=True)
     ).order_by('-created_at')
