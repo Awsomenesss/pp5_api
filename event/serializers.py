@@ -15,7 +15,7 @@ class EventSerializer(serializers.ModelSerializer):
     dislike_id = serializers.SerializerMethodField()
     likes_count = serializers.ReadOnlyField()
     dislikes_count = serializers.ReadOnlyField()
-    eventcomments_count = serializers.SerializerMethodField()
+    eventcomments_count = serializers.ReadOnlyField()
     created_at = serializers.SerializerMethodField()
     updated_at = serializers.SerializerMethodField()
 
@@ -59,12 +59,21 @@ class EventSerializer(serializers.ModelSerializer):
                 owner=user, event=obj
             ).first()
             return dislike.id if dislike else None
-        return None    
+        return None 
 
+    def get_comment_id(self, obj):
+        user = self.context['request'].user
+        if user.is_authenticated:
+            comment = EventComment.objects.filter(
+                owner=user, event=obj
+            ).first()
+            return comment.id if comment else None
+        return None 
+    
     class Meta:
         model = Event
         fields = [
             'id', 'owner', 'is_owner', 'profile_id',
             'profile_image', 'created_at', 'updated_at', 'image', 'description',
-            'date', 'time', 'location', 'like_id', 'dislike_id', 'likes_count', 'dislikes_count','eventcomments', 'eventcomments_count', 
+            'date', 'time', 'location', 'like_id', 'dislike_id', 'likes_count','dislikes_count', 'eventcomments_count',   
 ]

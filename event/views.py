@@ -15,7 +15,7 @@ class EventList(generics.ListCreateAPIView):
     queryset = Event.objects.annotate(
         likes_count=Count('event_likes', distinct=True),
         dislikes_count=Count('event_dislikes', distinct=True), 
-       
+        comments_count=Count('eventcomment', distinct=True)
        
     ).order_by('-created_at')
     filter_backends = [
@@ -27,6 +27,7 @@ class EventList(generics.ListCreateAPIView):
         'owner__followed__owner__profile',
         'event_likes__owner__profile', 
         'event_dislikes__owner__profile',
+        'eventcomment__owner__profile',
         'owner__profile',
     ]
     search_fields = [
@@ -36,8 +37,10 @@ class EventList(generics.ListCreateAPIView):
     ordering_fields = [
         'likes_count',
         'dislikes_count',
+        'comments_count',
         'event_likes__created_at',
         'event_dislikes__created_at', 
+        'event_comments_created_at',
     ]
 
     def perform_create(self, serializer):
@@ -52,4 +55,5 @@ class EventDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Event.objects.annotate(
         likes_count=Count('event_likes', distinct=True),
         dislikes_count=Count('event_dislikes', distinct=True),  
+        comments_count=Count('eventcomment', distinct=True)
     ).order_by('-created_at')
