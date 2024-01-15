@@ -48,14 +48,15 @@ class PostSerializer(serializers.ModelSerializer):
             ).first()
             return like.id if like else None
         return None
+
     def get_dislike_id(self, obj):
         user = self.context['request'].user
         if user.is_authenticated:
-            dislike = PostDisike.objects.filter(
-                owner=user, post=obj
+            dislike = PostDislike.objects.filter(
+                  owner=user, post=obj
             ).first()
             return dislike.id if dislike else None
-        return None    
+        return None   
 
     class Meta:
         model = Post
