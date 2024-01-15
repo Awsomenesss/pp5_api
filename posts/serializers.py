@@ -13,7 +13,7 @@ class PostSerializer(serializers.ModelSerializer):
     dislike_id = serializers.SerializerMethodField()
     likes_count = serializers.ReadOnlyField()
     dislikes_count = serializers.ReadOnlyField()
-    comments_count = serializers.ReadOnlyField()
+    postcomments_count = serializers.ReadOnlyField()
     created_at = serializers.SerializerMethodField()
     updated_at = serializers.SerializerMethodField()
 
@@ -56,11 +56,19 @@ class PostSerializer(serializers.ModelSerializer):
             ).first()
             return dislike.id if dislike else None
         return None    
+    def get_comment_id(self, obj):
+        user = self.context['request'].user
+        if user.is_authenticated:
+            comment = Comment.objects.filter(
+                owner=user, event=obj
+            ).first()
+            return comment.id if comment else None
+        return None 
 
     class Meta:
         model = Post
         fields = [
             'id', 'owner', 'is_owner', 'profile_id',
             'profile_image', 'created_at', 'updated_at',
-            'title', 'content', 'image', 'image_filter', 'like_id', 'dislike_id','likes_count','dislikes_count', 'comments_count',
+            'title', 'content', 'image', 'image_filter', 'like_id', 'dislike_id','likes_count','dislikes_count', 'postcomments_count',
         ]
