@@ -1,7 +1,10 @@
 from django.contrib.humanize.templatetags.humanize import naturaltime
 from rest_framework import serializers
 from event.models import Event
-from likes.models import EventLike  
+from likes.models import EventLike 
+from dislikes.models import EventDislike
+from comments.models import EventComment
+
 
 class EventSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
@@ -47,6 +50,7 @@ class EventSerializer(serializers.ModelSerializer):
             ).first()
             return like.id if like else None
         return None
+        
 
     def get_dislike_id(self, obj):
         user = self.context['request'].user

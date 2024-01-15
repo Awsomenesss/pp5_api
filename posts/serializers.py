@@ -2,7 +2,8 @@ from django.contrib.humanize.templatetags.humanize import naturaltime
 from rest_framework import serializers
 from posts.models import Post
 from likes.models import PostLike 
-from dislikes.models import PostDislike  
+from dislikes.models import PostDislike 
+
 
 class PostSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
