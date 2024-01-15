@@ -2,7 +2,8 @@ from django.contrib.humanize.templatetags.humanize import naturaltime
 from rest_framework import serializers
 from posts.models import Post
 from likes.models import PostLike 
-from dislikes.models import PostDislike  
+from dislikes.models import PostDislike 
+from comments.models import Comment  
 
 class PostSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
@@ -51,11 +52,11 @@ class PostSerializer(serializers.ModelSerializer):
     def get_dislike_id(self, obj):
         user = self.context['request'].user
         if user.is_authenticated:
-            dislike = PostDisike.objects.filter(
+            dislike = PostDislike.objects.filter(
                 owner=user, post=obj
             ).first()
             return dislike.id if dislike else None
-        return None    
+        return None   
     def get_comment_id(self, obj):
         user = self.context['request'].user
         if user.is_authenticated:
