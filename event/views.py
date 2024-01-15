@@ -14,7 +14,8 @@ class EventList(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     queryset = Event.objects.annotate(
         likes_count=Count('event_likes', distinct=True),
-        dislikes_count=Count('event_dislikes', distinct=True),  
+        dislikes_count=Count('event_dislikes', distinct=True), 
+       
        
     ).order_by('-created_at')
     filter_backends = [
