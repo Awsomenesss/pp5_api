@@ -1,5 +1,12 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from posts.models import Post
+from event.models import Event
+from posts.serializers import PostSerializer
+from event.serializers import EventSerializer
+from rest_framework.pagination import PageNumberPagination
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
 
 from .settings import (
     JWT_AUTH_COOKIE, JWT_AUTH_REFRESH_COOKIE, JWT_AUTH_SAMESITE,
@@ -35,3 +42,27 @@ def logout_route(request):
         secure=JWT_AUTH_SECURE,
     )
     return response
+@api_view(['GET'])
+def combined_posts_events(request):
+    posts = Post.objects.all()
+    events = Event.objects.all()
+
+    combined_list = sorted(
+        list(posts) + list(events), 
+        key=lambda instance: instance.created_at, 
+        reverse=True
+    )
+
+    paginator = PageNumberPagination()
+    paginated_list = paginator.paginate_queryset(combined_list, request)
+
+    serialized_list = []
+    for item in paginated_list:
+        if isinstance(item, Post):
+            serializer = PostSerializer(item, context={'request': request})
+            serialized_list.append(serializer.data)
+        elif isinstance(item, Event):
+            serializer = EventSerializer(item, context={'request': request})
+            serialized_list.append(serializer.data)
+
+    return paginator.get_paginated_response(serialized_list)

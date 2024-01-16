@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from .views import root_route, logout_route
+from .views import root_route, logout_route,combined_posts_events
 
 urlpatterns = [
     path('', root_route),
@@ -27,6 +27,7 @@ urlpatterns = [
     path('', include('profiles.urls')),
     path('', include('event.urls')),
     path('', include('posts.urls')),
+    path('combined-posts-events/', combined_posts_events, name='combined-posts-events'), 
     path('', include('comments.urls')),
     path('', include('likes.urls')),
     path('', include('dislikes.urls')),
