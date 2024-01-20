@@ -44,8 +44,14 @@ def logout_route(request):
     return response
 @api_view(['GET'])
 def combined_posts_events(request):
-    posts = Post.objects.all()
-    events = Event.objects.all()
+    search_query = request.query_params.get('search', '').strip()
+    username = request.query_params.get('username', '').strip()
+    posts = Post.objects.filter(title__iexact=search_query)
+    events = Event.objects.filter(description__iexact=search_query)
+
+    if username:
+        posts = posts.filter(owner__username__iexact=username)
+        events = events.filter(owner__username__iexact=username)
 
     combined_list = sorted(
         list(posts) + list(events), 
