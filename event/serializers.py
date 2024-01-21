@@ -15,7 +15,7 @@ class EventSerializer(serializers.ModelSerializer):
     dislike_id = serializers.SerializerMethodField()
     likes_count = serializers.ReadOnlyField()
     dislikes_count = serializers.ReadOnlyField()
-    eventcomments_count = serializers.ReadOnlyField()
+    comments_count = serializers.ReadOnlyField()
     created_at = serializers.SerializerMethodField()
     updated_at = serializers.SerializerMethodField()
 
@@ -75,5 +75,5 @@ class EventSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'owner', 'is_owner', 'profile_id',
             'profile_image', 'created_at', 'updated_at', 'image', 'description',
-            'date', 'time', 'location', 'like_id', 'dislike_id', 'likes_count','dislikes_count', 'eventcomments_count',   
+            'date', 'time', 'location', 'like_id', 'dislike_id', 'likes_count','dislikes_count', 'comments_count',   
 ]
