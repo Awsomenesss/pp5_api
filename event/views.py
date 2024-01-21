@@ -15,7 +15,7 @@ class EventList(generics.ListCreateAPIView):
     queryset = Event.objects.annotate(
         likes_count=Count('event_likes', distinct=True),
         dislikes_count=Count('event_dislikes', distinct=True), 
-        comments_count=Count('event_comment', distinct=True)
+        comments_count=Count('eventcomment', distinct=True)
        
     ).order_by('-created_at')
     filter_backends = [
@@ -55,5 +55,5 @@ class EventDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Event.objects.annotate(
         likes_count=Count('event_likes', distinct=True),
         dislikes_count=Count('event_dislikes', distinct=True),  
-        comments_count=Count('event_comment', distinct=True)
+        comments_count=Count('eventcomment', distinct=True)
     ).order_by('-created_at')
