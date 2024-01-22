@@ -69,7 +69,7 @@ class EventCommentSerializer(serializers.ModelSerializer):
             'id', 'owner', 'is_owner', 'profile_id', 'profile_image',
             'event', 'created_at', 'updated_at', 'content'
         ]
-class EEventCommentDetailSerializer(EventCommentSerializer):
+class EventCommentDetailSerializer(EventCommentSerializer):
     """
     Serializer for the Comment model used in Detail view
     Event is a read only field so that we dont have to set it on each update
