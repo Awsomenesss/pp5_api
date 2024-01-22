@@ -64,7 +64,7 @@ class EventCommentSerializer(serializers.ModelSerializer):
         return naturaltime(obj.updated_at)
 
     class Meta:
-        model = Comment
+        model = EventComment 
         fields = [
             'id', 'owner', 'is_owner', 'profile_id', 'profile_image',
             'event', 'created_at', 'updated_at', 'content'
