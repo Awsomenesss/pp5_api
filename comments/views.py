@@ -5,6 +5,7 @@ from .models import Comment,EventComment
 from .serializers import CommentSerializer, CommentDetailSerializer
 from .serializers import EventCommentSerializer, EventCommentDetailSerializer
 
+
 class CommentList(generics.ListCreateAPIView):
     """
     List comments or create a comment if logged in.

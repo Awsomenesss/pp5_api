@@ -7,6 +7,7 @@ from event.serializers import EventSerializer
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from django.db.models import Count
 
 from .settings import (
     JWT_AUTH_COOKIE, JWT_AUTH_REFRESH_COOKIE, JWT_AUTH_SAMESITE,
@@ -42,20 +43,30 @@ def logout_route(request):
         secure=JWT_AUTH_SECURE,
     )
     return response
-@api_view(['GET'])
+@api_view(['GET'])   
 def combined_posts_events(request):
     search_query = request.query_params.get('search', '')
     owner_query = request.query_params.get('owner', '')
+
     posts = Post.objects.filter(title__icontains=search_query)
     events = Event.objects.filter(description__icontains=search_query)
-    
+
     if owner_query:
         posts = posts.filter(owner__username=owner_query)
         events = events.filter(owner__username=owner_query)
 
-    combined_list = list(posts) + list(events)
-    combined_list.sort(key=lambda instance: instance.created_at, reverse=True)
-    
+    posts = posts.annotate(
+        likes_count=Count('post_likes', distinct=True), 
+        dislikes_count=Count('post_dislikes', distinct=True), 
+        comments_count=Count('comment', distinct=True)
+    )
+
+    events = events.annotate(
+        likes_count=Count('event_likes', distinct=True),
+        dislikes_count=Count('event_dislikes', distinct=True), 
+        comments_count=Count('eventcomment', distinct=True)
+    )
+
     combined_list = sorted(
         list(posts) + list(events), 
         key=lambda instance: instance.created_at, 
