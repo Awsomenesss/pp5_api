@@ -9,7 +9,7 @@ This project evolved out of a project, which centred around a fictional BJJ auti
 
 - **[Click Here](https://bjj-fcb7bcc1efc9.herokuapp.com/)** to see the deployed website. 
 
-- To view the frontend repository on Github **[Click Here](https://github.com/SamOBrienOlinger/spoodle-space-pp5)**. 
+- To view the frontend repository on Github **[Click Here](https://github.com/Awsomenesss/bjjreact_app/blob/main/README.md)**. 
 
 ## **Summary**
   This social platform provides Users with an opportunity to connect and share photographs, and even information about owning, training and taking care of a breed of dog called Cockapoos, one of Ireland's newest, most popular and much-loved dog breeds. 
